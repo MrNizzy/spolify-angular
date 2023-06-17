@@ -1,0 +1,177 @@
+<main class="form-signin p-3">
+  <form
+    class="bg-dark shadow-sm rounded p-3"
+    [formGroup]="registerForm"
+    (ngSubmit)="onRegister(registerForm.value)"
+  >
+    <div class="d-grid mb-3">
+      <img
+        class="mx-auto"
+        src="../../../assets/Spolify-Logo.svg"
+        alt="Logo Spolify"
+        height="60"
+      />
+    </div>
+    <h1 class="fs-5 mb-1">Registrarte</h1>
+
+    <div class="form-floating w-100 mb-1">
+      <input
+        type="text"
+        class="form-control"
+        id="floatingInput"
+        placeholder="username"
+        formControlName="username"
+        [ngClass]="{
+          'is-invalid':
+            getRegisterControl('username').touched &&
+            getRegisterControl('username').value == '',
+          'is-valid': getRegisterControl('username').value != ''
+        }"
+      />
+      <label for="floatingInput"
+        >Nombre de usuario<span class="text-danger">*</span></label
+      >
+      <div class="invalid-feedback">¡El campo es requerido!</div>
+    </div>
+    <div class="form-floating w-100 mb-1">
+      <input
+        type="text"
+        class="form-control"
+        id="nombreInput"
+        placeholder="Nombre"
+        formControlName="nombre"
+        [ngClass]="{
+          'is-invalid':
+            getRegisterControl('nombre').touched &&
+            getRegisterControl('nombre').value == '',
+          'is-valid': getRegisterControl('nombre').value != ''
+        }"
+      />
+      <label for="nombreInput">Nombre<span class="text-danger">*</span></label>
+      <div class="invalid-feedback">¡El campo es requerido!</div>
+    </div>
+    <div class="form-floating w-100 mb-1">
+      <input
+        type="text"
+        class="form-control"
+        name="apellidoInput"
+        id="apellidoInput"
+        placeholder="Apellido"
+        formControlName="apellido"
+        [ngClass]="{
+          'is-valid': getRegisterControl('apellido').value != ''
+        }"
+      />
+      <label for="apellidoInput">Apellido</label>
+    </div>
+    <div class="form-floating mb-1 w-100">
+      <input
+        type="date"
+        class="form-control"
+        name="fechaNacimiento"
+        id="fechaNacimiento"
+        placeholder="Fecha de nacimiento"
+        formControlName="fecha_nacimiento"
+        [ngClass]="{
+          'is-invalid':
+            getRegisterControl('fecha_nacimiento').touched &&
+            getRegisterControl('fecha_nacimiento').value == '',
+          'is-valid': getRegisterControl('fecha_nacimiento').value != ''
+        }"
+      />
+      <label for="fechaNacimiento"
+        >Fecha de nacimiento<span class="text-danger">*</span></label
+      >
+      <div class="invalid-feedback">¡El campo es requerido!</div>
+    </div>
+    <div class="form-floating mb-1">
+      <input
+        type="email"
+        id="registerEmail"
+        [ngClass]="{
+              'is-invalid':
+                  getRegisterControl('email').touched &&
+                  (getRegisterControl('email').value == '' || getRegisterControl('email').errors?.['email']),
+              'is-valid': getRegisterControl('email').value != '' && !getRegisterControl('email').errors?.['email']
+          }"
+        class="form-control"
+        placeholder="Ingresa el correo electrónico"
+        formControlName="email"
+      />
+      <label class="form-label" for="registerEmail"
+        >Correo electrónico <span class="text-danger">*</span></label
+      >
+      <div
+        class="invalid-feedback"
+        *ngIf="!getRegisterControl('email').errors?.['email']"
+      >
+        ¡El campo es requerido!
+      </div>
+      <div
+        class="invalid-feedback"
+        *ngIf="getRegisterControl('email').errors?.['email']"
+      >
+        ¡El email no es correcto!
+      </div>
+    </div>
+    <div class="form-floating w-100 mb-1">
+      <input
+        type="password"
+        class="form-control"
+        id="floatingPassword"
+        placeholder="Password"
+        formControlName="password"
+        [ngClass]="{
+          'is-invalid':
+            getRegisterControl('password').touched &&
+            getRegisterControl('password').value == '',
+          'is-valid': getRegisterControl('password').value != ''
+        }"
+      />
+      <label for="floatingPassword"
+        >Contraseña<span class="text-danger">*</span></label
+      >
+      <div class="invalid-feedback">¡El campo es requerido!</div>
+    </div>
+    <div class="form-floating w-100 mb-1">
+      <input
+        type="password"
+        class="form-control"
+        id="floatingPasswordRepeat"
+        placeholder="Password"
+        formControlName="repeatPassword"
+        [ngClass]="{
+          'is-invalid':
+            getRegisterControl('password').value !=
+              getRegisterControl('repeatPassword').value &&
+            getRegisterControl('repeatPassword').value !== '',
+          'is-valid':
+            getRegisterControl('password').value ==
+              getRegisterControl('repeatPassword').value &&
+            getRegisterControl('repeatPassword').value !== ''
+        }"
+      />
+      <label class="form-label" for="floatingPasswordRepeat"
+        >Repite la contraseña<span class="text-danger">*</span></label
+      >
+      <div class="invalid-feedback">¡Las contraseñas no coinciden!</div>
+    </div>
+
+    <button
+      class="btn btn-primary w-100 py-2 mb-1"
+      type="submit"
+      [disabled]="registerForm.invalid"
+    >
+      Registrarte
+    </button>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <a class="icon-link-hover" routerLink="/">
+        <i class="bi bi-arrow-left-circle-fill"></i> Volver
+      </a>
+      <a class="icon-link-hover" routerLink="/auth/login"> Iniciar sesión</a>
+    </div>
+    <p class="mb-1 text-body-secondary">
+      &copy; 2023 - Creado por estudiantes de Univalle.
+    </p>
+  </form>
+</main>

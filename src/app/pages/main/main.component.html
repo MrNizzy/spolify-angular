@@ -1,0 +1,287 @@
+<main class="main-container d-flex">
+  <section class="container my-5 px-3">
+    <div class="d-grid" *ngIf="!songs">
+      <h3 class="mx-auto">
+        😥 Aún no hay ninguna canción. Sé el primero en subir una. 😊
+      </h3>
+    </div>
+    <ol class="list-group list-group-numbered" [hidden]="!songs">
+      <li
+        class="list-group-item d-flex justify-content-between align-items-start border-bottom pointer"
+        *ngFor="let songItem of songs"
+        [class.active]="
+          songItem.titulo == currentTrack.titulo &&
+          songItem.artista == currentTrack.artista
+        "
+        (click)="openSongs(songItem); isPaused = false"
+      >
+        <div class="position-relative">
+          <!-- <i
+            class="bi bi-heart-fill fs-5 position-absolute top-50 start-50 translate-middle text-warning shadow"
+            *ngIf="songItem.favorite"
+          ></i>
+          <i
+            class="bi bi-heart fs-5 text-warning position-absolute top-50 start-50 translate-middle shadow"
+            *ngIf="!songItem.favorite"
+          ></i> -->
+          <img
+            src="../../../assets/thumb.png"
+            alt="Thumbnail"
+            class="rounded cover mx-1"
+            width="48"
+            height="48"
+          />
+        </div>
+        <div class="ms-2 me-auto">
+          <div class="fw-bold text-truncate">{{ songItem.titulo }}</div>
+          {{ songItem.artista }}
+        </div>
+        <span class="badge bg-transparent rounded-pill">
+          <!-- <i
+            class="bi bi-heart fs-5 text-warning"
+            *ngIf="!songItem.favorite"
+          ></i>
+          <i
+            class="bi bi-heart-fill fs-5 text-warning"
+            *ngIf="songItem.favorite"
+          ></i> -->
+        </span>
+      </li>
+    </ol>
+    <router-outlet></router-outlet>
+  </section>
+  <nav class="navbar bg-body-tertiary fixed-top shadow-small">
+    <div class="container-fluid gap-2">
+      <!-- Sidebar -->
+      <div
+        class="offcanvas offcanvas-start sidebar"
+        tabindex="-1"
+        id="offcanvasNavbar"
+        data-bs-scroll="true"
+        aria-labelledby="offcanvasNavbarLabel"
+      >
+        <div class="offcanvas-header shadow-small">
+          <div class="offcanvas-title" id="offcanvasNavbarLabel">
+            <img
+              src="../../../assets/Spolify-Logo.svg"
+              height="50px"
+              alt="Spolify logo"
+            />
+          </div>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="nav flex-column nav-pills" style="font-weight: 700">
+            <li class="nav-item">
+              <a
+                class="nav-link active d-flex align-items-center gap-1"
+                aria-current="page"
+                href="#"
+              >
+                <!-- <i class="bi bi-house-door"></i> -->
+                <i class="bi bi-house-fill fs-5"></i>
+                <span> Inicio </span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link d-flex align-items-center gap-1" href="#">
+                <i class="bi bi-speaker fs-5"></i>
+                <!-- <i class="bi bi-speaker-fill"></i> -->
+                <span> Tu biblioteca </span>
+              </a>
+            </li>
+            <li><hr /></li>
+            <li class="nav-item">
+              <a class="nav-link d-flex align-items-center gap-1" href="#">
+                <i class="bi bi-plus-square-fill fs-5"></i>
+                <span>Crear playlist</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- Navbar -->
+      <div class="d-flex justify-content-center align-items-center">
+        <button
+          class="navbar-toggler border-0"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasNavbar"
+          aria-controls="offcanvasNavbar"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <button class="btn" routerLink="/" type="button">
+          <img
+            src="../../../assets/Spolify-Logo.svg"
+            class="brand-lg"
+            height="30px"
+            alt="Spolify logo"
+          />
+        </button>
+      </div>
+
+      <!-- Search button -->
+      <div class="position-relative w-50">
+        <i class="bi bi-search position-absolute top-0 end-0 mt-1 me-2"></i>
+        <input
+          type="text"
+          class="form-control shadow-sm"
+          id="search"
+          placeholder="Buscar canción"
+          [(ngModel)]="searchText"
+        />
+      </div>
+
+      <!-- Profile menu -->
+      <button
+        *ngIf="checkSession()"
+        class="btn btn-primary"
+        type="button"
+        (click)="stopSong()"
+        routerLink="/auth/login"
+      >
+        <i class="bi bi-person-circle"></i>
+        Iniciar sesión
+      </button>
+      <div class="dropstart" *ngIf="!checkSession()">
+        <button
+          class="btn btn-primary"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <i class="bi bi-person-circle"></i>
+          Perfil
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Action</a></li>
+          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a class="dropdown-item pointer" (click)="onLogout(); stopSong()"
+              >Cerrar sesión</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Player -->
+  <section class="position-fixed bottom-0 w-100 border-top bg-dark player">
+    <div class="row px-3 py-1">
+      <div class="col">
+        <div class="row">
+          <div class="col d-flex gap-1">
+            <button class="btn">
+              <div class="position-relative">
+                <!-- <i
+                  class="bi bi-heart-fill fs-3 position-absolute top-50 start-50 translate-middle text-warning shadow"
+                  *ngIf="currentTrack.favorite"
+                ></i>
+                <i
+                  class="bi bi-heart fs-5 text-warning position-absolute top-50 start-50 translate-middle shadow"
+                  *ngIf="!currentTrack.favorite"
+                ></i> -->
+                <img
+                  src="../../../assets/thumb.png"
+                  alt="Thumbnail"
+                  class="rounded cover"
+                  width="64"
+                  height="64"
+                />
+              </div>
+            </button>
+            <div class="d-flex flex-column justify-content-center">
+              <b
+                ><a
+                  href="#"
+                  class="text-white text-decoration-none text-truncate"
+                  >{{ currentTrack.titulo }}</a
+                ></b
+              >
+              <small>
+                <a href="#">{{ currentTrack.artista }}</a>
+              </small>
+            </div>
+          </div>
+          <div class="col">
+            <div class="d-flex justify-content-center align-items-center">
+              <button class="btn p-1" (click)="stopSong()">
+                <i class="bi bi-stop-fill"></i>
+              </button>
+              <button class="btn p-1">
+                <i class="bi bi-shuffle"></i>
+              </button>
+              <button class="btn p-1">
+                <i class="bi bi-skip-start-fill"></i>
+              </button>
+              <button
+                class="btn p-0"
+                (click)="playSong(); isPaused = false"
+                *ngIf="isPaused"
+              >
+                <i class="bi bi-play-circle-fill fs-3 p-1"></i>
+              </button>
+              <button
+                class="btn p-0"
+                (click)="pauseSong(); isPaused = true"
+                *ngIf="!isPaused"
+              >
+                <i class="bi bi-pause-circle-fill fs-3 p-1"></i>
+              </button>
+              <button class="btn p-1">
+                <i class="bi bi-skip-end-fill"></i>
+              </button>
+              <button class="btn p-1">
+                <i class="bi bi-repeat"></i>
+              </button>
+              <a class="btn p-1" [href]="onDownload()" target="_blank" download>
+                <i class="bi bi-download"></i>
+              </a>
+            </div>
+            <div class="d-flex justify-content-center align-items-center gap-1">
+              <small id="current">{{ currentTimeFormated }}</small>
+              <input
+                type="range"
+                class="form-range"
+                [max]="duration"
+                [value]="currentTime"
+                id="durationTrack"
+              />
+              <small id="duration">{{ durationFormated }}</small>
+            </div>
+          </div>
+          <div class="col align-self-center">
+            <div class="row justify-content-end align-items-center">
+              <div class="col-4 d-flex align-items-center">
+                <button class="btn" (click)="muted()">
+                  <i class="bi bi-volume-down-fill" *ngIf="volume != 0"></i>
+                  <i class="bi bi-volume-mute-fill" *ngIf="volume == 0"></i>
+                </button>
+                <input
+                  type="range"
+                  class="form-range"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  [value]="volume"
+                  (input)="volumen($event)"
+                  id="volume"
+                  style="min-width: 50px"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
