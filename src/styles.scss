@@ -18,18 +18,19 @@ $theme: "quartz" !default;
 //
 // Color system
 //
+$custom-color-primary: #000;
 
 $white: #fff !default;
-$gray-100: #fbfcfe !default;
-$gray-200: #d6ddf0 !default;
-$gray-300: #b0bee3 !default;
-$gray-400: #8a9fd6 !default;
-$gray-500: #6480c8 !default;
-$gray-600: #4162b9 !default;
-$gray-700: #344e93 !default;
-$gray-800: #273a6d !default;
-$gray-900: #192648 !default;
-$black: #0c1222 !default;
+$gray-100: lighten($custom-color-primary, 80%) !default;
+$gray-200: lighten($custom-color-primary, 70%) !default;
+$gray-300: lighten($custom-color-primary, 60%) !default;
+$gray-400: lighten($custom-color-primary, 50%) !default;
+$gray-500: lighten($custom-color-primary, 40%) !default;
+$gray-600: lighten($custom-color-primary, 30%) !default;
+$gray-700: lighten($custom-color-primary, 20%) !default;
+$gray-800: lighten($custom-color-primary, 10%) !default;
+$gray-900: lighten($custom-color-primary, 0%) !default;
+$black: $custom-color-primary !default;
 
 $blue: #3a8fd9 !default;
 $indigo: #6610f2 !default;
@@ -298,4 +299,55 @@ $btn-close-color: $white !default;
 
 *::-webkit-scrollbar-thumb:active {
   background-color: $gray-800;
+}
+
+.cover {
+  opacity: 0.7;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+  &:hover {
+    opacity: 0.3;
+  }
+}
+
+.player {
+  display: grid;
+  place-content: center;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 100px;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas: "info-song actions volume";
+  z-index: 10001;
+}
+
+.actions,
+.volume {
+  display: grid;
+  place-content: center;
+}
+
+.info-song {
+  grid-area: info-song;
+  display: flex;
+  justify-content: center;
+}
+
+.actions {
+  grid-area: actions;
+}
+
+.volume {
+  grid-area: volume;
+}
+
+@media (max-width: 768px) {
+  .player {
+    padding: 0.5rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "info-song info-song" "actions actions";
+  }
+  .volume {
+    display: none;
+  }
 }

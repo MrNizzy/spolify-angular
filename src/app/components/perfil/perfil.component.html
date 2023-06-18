@@ -1,0 +1,9 @@
+<app-banner-perfil
+  [usuario]="datosUsuario"
+  [canciones]="canciones"
+></app-banner-perfil>
+<app-playlist></app-playlist>
+
+<ol *ngFor="let cancion of canciones">
+  <li>{{ cancion.titulo }}</li>
+</ol>

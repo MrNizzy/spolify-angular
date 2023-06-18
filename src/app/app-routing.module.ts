@@ -4,6 +4,7 @@ import { MainComponent } from './pages/main/main.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { RegistrarseComponent } from './components/registrarse/registrarse.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -26,6 +27,10 @@ const routes: Routes = [
         pathMatch: 'full',
       },
     ],
+  },
+  {
+    path: 'perfil',
+    component: PerfilComponent,
   },
 ];
 

@@ -18,6 +18,10 @@ export class AuthService {
     }
   }
 
+  getUsuarioPorId(id: number) {
+    return this.http.get(environment.apiUrl + '/api/usuarios/' + id);
+  }
+
   loginByEmail(form: loginInterface): Observable<sessionInterface> {
     return this.http
       .post<sessionInterface>(environment.apiUrl + '/api/auth/login', form)

@@ -1,0 +1,119 @@
+<div class="player w-100">
+  <!--? INFO SONG -->
+  <div class="info-song">
+    <button class="btn" aria-label="Thumbnail">
+      <div class="position-relative">
+        <!-- <i
+            class="bi bi-heart-fill fs-3 position-absolute top-50 start-50 translate-middle text-warning shadow"
+            *ngIf="currentTrack.favorite"
+          ></i>
+          <i
+            class="bi bi-heart fs-5 text-warning position-absolute top-50 start-50 translate-middle shadow"
+            *ngIf="!currentTrack.favorite"
+          ></i> -->
+        <img
+          src="../../../assets/spolify.svg"
+          alt="Thumbnail"
+          class="rounded cover"
+          width="64"
+          height="64"
+        />
+      </div>
+    </button>
+    <div class="d-flex flex-column justify-content-center">
+      <b
+        ><a
+          href="#"
+          class="text-white text-decoration-none text-truncate"
+          aria-label="Titulo de canción"
+          >{{ currentTrack.titulo }}</a
+        ></b
+      >
+      <small>
+        <a href="#" aria-label="Nombre de artista">{{
+          currentTrack.artista
+        }}</a>
+      </small>
+    </div>
+  </div>
+
+  <!--? ACCIONES -->
+  <div class="actions">
+    <div class="d-flex justify-content-center align-items-center">
+      <button class="btn p-1" (click)="stopSong()" aria-label="Stop">
+        <i class="bi bi-stop-fill"></i>
+      </button>
+      <button class="btn p-1" aria-label="Shuffle">
+        <i class="bi bi-shuffle"></i>
+      </button>
+      <button class="btn p-1" aria-label="Previous">
+        <i class="bi bi-skip-start-fill"></i>
+      </button>
+      <button
+        class="btn p-0"
+        (click)="playSong(); isPaused = false"
+        *ngIf="isPaused"
+        aria-label="Play"
+      >
+        <i class="bi bi-play-circle-fill fs-3 p-1"></i>
+      </button>
+      <button
+        class="btn p-0"
+        (click)="pauseSong(); isPaused = true"
+        *ngIf="!isPaused"
+        aria-label="Pause"
+      >
+        <i class="bi bi-pause-circle-fill fs-3 p-1"></i>
+      </button>
+      <button class="btn p-1" aria-label="Next">
+        <i class="bi bi-skip-end-fill"></i>
+      </button>
+      <button class="btn p-1" aria-label="Repeat">
+        <i class="bi bi-repeat"></i>
+      </button>
+      <a
+        class="btn p-1"
+        [href]="onDownload()"
+        target="_blank"
+        aria-label="Descargar canción"
+        download
+      >
+        <i class="bi bi-download"></i>
+      </a>
+    </div>
+    <div class="d-flex justify-content-center align-items-center gap-1">
+      <small id="current">{{ currentTimeFormated }}</small>
+      <input
+        type="range"
+        class="form-range"
+        [max]="duration"
+        [value]="currentTime"
+        id="durationTrack"
+        aria-label="Timeline"
+      />
+      <small id="duration">{{ durationFormated }}</small>
+    </div>
+  </div>
+
+  <!--? VOLUMEN -->
+  <div class="volume">
+    <div class="d-flex align-items-center">
+      <button class="btn" (click)="muted()" aria-label="Mute">
+        <i class="bi bi-volume-down-fill" *ngIf="volume != 0"></i>
+        <i class="bi bi-volume-mute-fill" *ngIf="volume == 0"></i>
+      </button>
+      <input
+        type="range"
+        class="form-range w-75"
+        min="0"
+        max="1"
+        step="0.1"
+        [value]="volume"
+        (input)="volumen($event)"
+        id="volume"
+        style="min-width: 50px"
+        aria-label="Volumen"
+      />
+    </div>
+  </div>
+</div>

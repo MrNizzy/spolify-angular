@@ -1,0 +1,157 @@
+import { Component, Input } from '@angular/core';
+import { currentTrackInterface } from 'src/app/models/currentTrack.interface';
+import { PlayerService } from 'src/app/services/player.service';
+import { environment } from 'src/environments/environment';
+
+@Component({
+  selector: 'app-player',
+  templateUrl: './player.component.html',
+  styleUrls: ['./player.component.scss'],
+})
+export class PlayerComponent {
+  constructor(private playerService: PlayerService) {}
+
+  song = new Audio();
+  @Input() songs: any = [];
+
+  isPaused = true;
+  volume = 0.7;
+  duration = 0;
+  durationFormated = '00:00';
+  currentTime = 0;
+  currentTimeFormated = '00:00';
+  currentTrack: currentTrackInterface = {
+    id: 0,
+    titulo: 'Unknown Track',
+    artista: 'Unknown Artist',
+    album: 'Unknown Album',
+    date: 'Unknown Date',
+    genero: 'Unknown Genre',
+    duracion: 0,
+    imagen: '',
+    audio: '',
+    fecha_creacion: '',
+    fecha_actualizacion: '',
+    id_usuario: {},
+  };
+  updateInterval: any;
+
+  ngOnInit() {
+    this.playerService.currentTrackObservable.subscribe((track) => {
+      this.currentTrack = track;
+      this.openSongs(this.currentTrack);
+    });
+    this.volumen(this.volume);
+    this.song.addEventListener('loadedmetadata', () => {
+      this.duration = this.song.duration;
+      this.durationFormated = this.formatTime(this.duration);
+    });
+  }
+
+  onChangeCurrentTrack(track: currentTrackInterface) {
+    this.playerService.sendCurrentTrack(track);
+  }
+
+  switchPause() {
+    if (this.song.src == '') {
+      alert('No hay ninguna cancion cargada');
+      return;
+    } else {
+      this.isPaused = !this.isPaused;
+    }
+  }
+
+  openSongs(song: any) {
+    try {
+      this.song.src = environment.apiUrl + '/api/canciones/view/' + song.audio;
+      console.log(this.song.src);
+      this.isPaused = false;
+      this.song.load();
+      this.song.play();
+      this.currentTrack = song;
+      this.updateInterval = setInterval(() => {
+        this.currentTime = this.song.currentTime;
+        this.currentTimeFormated = this.formatTime(this.currentTime);
+      }, 1000);
+    } catch (e) {
+      console.log(e);
+      alert('Error al abrir el archivo');
+      this.stopSong();
+      this.song.src = '';
+    }
+  }
+
+  playSong() {
+    try {
+      this.song.play();
+      this.updateInterval = setInterval(() => {
+        this.currentTime = this.song.currentTime;
+        this.currentTimeFormated = this.formatTime(this.currentTime);
+      }, 1000);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  pauseSong() {
+    try {
+      this.song.pause();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  stopSong() {
+    if (this.song.src != '') {
+      this.song.pause();
+      this.song.currentTime = 0;
+      clearInterval(this.updateInterval);
+      this.currentTime = 0;
+      this.isPaused = true;
+      this.currentTimeFormated = '00:00';
+    }
+  }
+
+  volumen(volume: any) {
+    try {
+      this.volume = volume.target.value;
+      this.song.volume = this.volume;
+    } catch (e) {}
+  }
+
+  muted() {
+    try {
+      this.volume = 0;
+      this.song.volume = this.volume;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  getTrack() {
+    return this.currentTrack;
+  }
+
+  getFileName() {
+    return this.currentTrack.titulo + ' - ' + this.currentTrack.artista;
+  }
+
+  onDownload() {
+    return (
+      environment.apiUrl + '/api/canciones/view/' + this.currentTrack.audio
+    );
+  }
+
+  openDownloadUrl(): void {
+    const downloadUrl = this.onDownload();
+    window.open(downloadUrl, '_blank');
+  }
+
+  private formatTime(time: number): string {
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    const minutesFormatted = minutes < 10 ? `0${minutes}` : `${minutes}`;
+    const secondsFormatted = seconds < 10 ? `0${seconds}` : `${seconds}`;
+    return `${minutesFormatted}:${secondsFormatted}`;
+  }
+}

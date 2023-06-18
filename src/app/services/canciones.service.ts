@@ -11,4 +11,8 @@ export class CancionesService {
   getCanciones() {
     return this.http.get(environment.apiUrl + '/api/canciones');
   }
+
+  getCancionesPorUsuario(id: number) {
+    return this.http.get(environment.apiUrl + '/api/canciones/' + id);
+  }
 }

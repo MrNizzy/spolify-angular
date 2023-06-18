@@ -12,6 +12,11 @@ import { AuthComponent } from './pages/auth/auth.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegistrarseComponent } from './components/registrarse/registrarse.component';
 import { ToastrModule } from 'ngx-toastr';
+import { JwtModule } from '@auth0/angular-jwt';
+import { BannerPerfilComponent } from './components/banner-perfil/banner-perfil.component';
+import { PerfilComponent } from './components/perfil/perfil.component';
+import { PlaylistComponent } from './components/playlist/playlist.component';
+import { PlayerComponent } from './components/player/player.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +25,10 @@ import { ToastrModule } from 'ngx-toastr';
     AuthComponent,
     LoginComponent,
     RegistrarseComponent,
+    BannerPerfilComponent,
+    PerfilComponent,
+    PlaylistComponent,
+    PlayerComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,6 +39,11 @@ import { ToastrModule } from 'ngx-toastr';
     NgOptimizedImage,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('access_token'),
+      },
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
