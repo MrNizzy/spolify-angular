@@ -78,6 +78,14 @@
 
   <!-- TODO: Contenido -->
   <section class="body-section">
+    <router-outlet></router-outlet>
+    <button
+      type="button"
+      class="btn btn-outline-success"
+      (click)="sendPlaylistToPlayer()"
+    >
+      Reproducir playlist
+    </button>
     <ol class="list-group list-group-numbered" [hidden]="!songs">
       <li
         class="list-group-item d-flex justify-content-between align-items-start border-bottom pointer"
@@ -86,7 +94,7 @@
           songItem.titulo == currentTrack.titulo &&
           songItem.artista == currentTrack.artista
         "
-        (click)="onChangeCurrentTrack(songItem)"
+        (click)="sendPlaylistToPlayer(); onChangeCurrentTrack(songItem)"
       >
         <div class="position-relative">
           <!-- <i

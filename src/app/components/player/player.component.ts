@@ -12,7 +12,6 @@ export class PlayerComponent {
   constructor(private playerService: PlayerService) {}
 
   song = new Audio();
-  @Input() songs: any = [];
 
   isPaused = true;
   volume = 0.7;
@@ -20,6 +19,7 @@ export class PlayerComponent {
   durationFormated = '00:00';
   currentTime = 0;
   currentTimeFormated = '00:00';
+  currentPlaylist: currentTrackInterface[] = [];
   currentTrack: currentTrackInterface = {
     id: 0,
     titulo: 'Unknown Track',
@@ -41,15 +41,26 @@ export class PlayerComponent {
       this.currentTrack = track;
       this.openSongs(this.currentTrack);
     });
+    this.playerService.playlistObservable.subscribe((playlist) => {
+      this.currentPlaylist = playlist;
+    });
     this.volumen(this.volume);
     this.song.addEventListener('loadedmetadata', () => {
       this.duration = this.song.duration;
       this.durationFormated = this.formatTime(this.duration);
     });
+    this.song.addEventListener('ended', () => {
+      this.playNextTrack();
+    });
   }
 
   onChangeCurrentTrack(track: currentTrackInterface) {
-    this.playerService.sendCurrentTrack(track);
+    this.stopSong();
+
+    setTimeout(() => {
+      this.playerService.sendCurrentTrack(track);
+      this.openSongs(track);
+    }, 500);
   }
 
   switchPause() {
@@ -64,7 +75,6 @@ export class PlayerComponent {
   openSongs(song: any) {
     try {
       this.song.src = environment.apiUrl + '/api/canciones/view/' + song.audio;
-      console.log(this.song.src);
       this.isPaused = false;
       this.song.load();
       this.song.play();
@@ -110,6 +120,14 @@ export class PlayerComponent {
       this.isPaused = true;
       this.currentTimeFormated = '00:00';
     }
+  }
+
+  playNextTrack() {
+    this.playerService.getNextTrack();
+  }
+
+  playPreviousTrack() {
+    this.playerService.getPreviousTrack();
   }
 
   volumen(volume: any) {

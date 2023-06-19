@@ -5,9 +5,14 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { RegistrarseComponent } from './components/registrarse/registrarse.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import { SubirCancionComponent } from './components/subir-cancion/subir-cancion.component';
 
 const routes: Routes = [
-  { path: '', component: MainComponent },
+  {
+    path: '',
+    component: MainComponent,
+    children: [{ path: 'upload', component: SubirCancionComponent }],
+  },
   {
     path: 'auth',
     component: AuthComponent,

@@ -21,8 +21,8 @@ export class MainComponent implements OnInit {
   ) {}
 
   usuario: any;
-  song = new Audio();
   songs: any = [];
+  playlist: currentTrackInterface[] = [];
 
   toastConfig: Partial<IndividualConfig> = {
     progressAnimation: 'decreasing',
@@ -55,6 +55,10 @@ export class MainComponent implements OnInit {
 
   onChangeCurrentTrack(track: currentTrackInterface) {
     this.playerService.sendCurrentTrack(track);
+  }
+
+  sendPlaylistToPlayer() {
+    this.playerService.sendPlaylist(this.songs);
   }
 
   onDecodeToken() {
