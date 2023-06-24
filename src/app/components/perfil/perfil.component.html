@@ -2,8 +2,8 @@
   [usuario]="datosUsuario"
   [canciones]="canciones"
 ></app-banner-perfil>
-<app-playlist></app-playlist>
 
-<ol *ngFor="let cancion of canciones">
-  <li>{{ cancion.titulo }}</li>
-</ol>
+<section class="container">
+  <h3>Canciones subidas</h3>
+  <app-playlist [playlist]="canciones"></app-playlist>
+</section>

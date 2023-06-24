@@ -6,12 +6,25 @@ import { AuthComponent } from './pages/auth/auth.component';
 import { RegistrarseComponent } from './components/registrarse/registrarse.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { SubirCancionComponent } from './components/subir-cancion/subir-cancion.component';
+import { GenerosPlaylistComponent } from './components/generos-playlist/generos-playlist.component';
 
 const routes: Routes = [
   {
     path: '',
     component: MainComponent,
-    children: [{ path: 'upload', component: SubirCancionComponent }],
+    children: [
+      {
+        path: '',
+        component: GenerosPlaylistComponent,
+        pathMatch: 'full',
+      },
+      { path: 'upload', component: SubirCancionComponent, pathMatch: 'full' },
+      {
+        path: 'perfil',
+        component: PerfilComponent,
+        pathMatch: 'full',
+      },
+    ],
   },
   {
     path: 'auth',
@@ -32,10 +45,6 @@ const routes: Routes = [
         pathMatch: 'full',
       },
     ],
-  },
-  {
-    path: 'perfil',
-    component: PerfilComponent,
   },
 ];
 

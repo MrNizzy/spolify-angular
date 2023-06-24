@@ -1,6 +1,6 @@
 <main class="main">
   <!-- TODO: Navbar -->
-  <section class="navbar-section bg-body-tertiary">
+  <section class="navbar-section bg-body-secondary">
     <div class="toggle-brand">
       <button
         class="navbar-toggler border-0"
@@ -61,13 +61,16 @@
         </button>
         <ul class="dropdown-menu dropdown-menu-end">
           <li>
-            <a class="dropdown-item" href="#" aria-label="Mi perfil"
+            <a class="dropdown-item" routerLink="/perfil" aria-label="Mi perfil"
               >Mi perfil</a
             >
           </li>
           <li><hr class="dropdown-divider" /></li>
           <li>
-            <a class="dropdown-item pointer" (click)="onLogout()"
+            <a
+              class="dropdown-item pointer"
+              (click)="onLogout()"
+              routerLink="/auth/login"
               >Cerrar sesión</a
             >
           </li>
@@ -79,56 +82,6 @@
   <!-- TODO: Contenido -->
   <section class="body-section">
     <router-outlet></router-outlet>
-    <button
-      type="button"
-      class="btn btn-outline-success"
-      (click)="sendPlaylistToPlayer()"
-    >
-      Reproducir playlist
-    </button>
-    <ol class="list-group list-group-numbered" [hidden]="!songs">
-      <li
-        class="list-group-item d-flex justify-content-between align-items-start border-bottom pointer"
-        *ngFor="let songItem of songs"
-        [class.active]="
-          songItem.titulo == currentTrack.titulo &&
-          songItem.artista == currentTrack.artista
-        "
-        (click)="sendPlaylistToPlayer(); onChangeCurrentTrack(songItem)"
-      >
-        <div class="position-relative">
-          <!-- <i
-            class="bi bi-heart-fill fs-5 position-absolute top-50 start-50 translate-middle text-warning shadow"
-            *ngIf="songItem.favorite"
-          ></i>
-          <i
-            class="bi bi-heart fs-5 text-warning position-absolute top-50 start-50 translate-middle shadow"
-            *ngIf="!songItem.favorite"
-          ></i> -->
-          <img
-            src="../../../assets/thumb.png"
-            alt="Thumbnail"
-            class="rounded cover mx-1"
-            width="48"
-            height="48"
-          />
-        </div>
-        <div class="ms-2 me-auto">
-          <div class="fw-bold text-truncate">{{ songItem.titulo }}</div>
-          {{ songItem.artista }}
-        </div>
-        <span class="badge bg-transparent rounded-pill">
-          <!-- <i
-            class="bi bi-heart fs-5 text-warning"
-            *ngIf="!songItem.favorite"
-          ></i>
-          <i
-            class="bi bi-heart-fill fs-5 text-warning"
-            *ngIf="songItem.favorite"
-          ></i> -->
-        </span>
-      </li>
-    </ol>
   </section>
 
   <!-- TODO: Player -->
@@ -170,9 +123,11 @@
     <ul class="nav flex-column nav-pills" style="font-weight: 700">
       <li class="nav-item">
         <a
-          class="nav-link active d-flex align-items-center gap-1"
+          class="nav-link d-flex align-items-center gap-1"
           aria-current="page"
-          href="#"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="active"
+          routerLink="/"
           aria-label="Inicio"
         >
           <!-- <i class="bi bi-house-door"></i> -->
@@ -180,10 +135,12 @@
           <span> Inicio </span>
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!checkSession()">
         <a
           class="nav-link d-flex align-items-center gap-1"
           routerLink="/perfil"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="active"
           aria-label="Tu biblioteca"
         >
           <i class="bi bi-speaker fs-5"></i>
@@ -192,15 +149,15 @@
         </a>
       </li>
       <li><hr /></li>
-      <li class="nav-item">
-        <a
+      <li class="nav-item" *ngIf="!checkSession()">
+        <button
           class="nav-link d-flex align-items-center gap-1"
-          href="#"
           aria-label="Crear playlist"
+          disabled
         >
           <i class="bi bi-plus-square-fill fs-5"></i>
           <span>Crear playlist</span>
-        </a>
+        </button>
       </li>
     </ul>
   </div>

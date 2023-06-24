@@ -25,20 +25,28 @@ export class PlayerService {
 
   private currentTrackSubject = new Subject<currentTrackInterface>();
   private playlistSubject = new Subject<currentTrackInterface[]>();
+  private stopSignalSource = new Subject<void>();
 
   currentTrackObservable = this.currentTrackSubject.asObservable();
-
   playlistObservable = this.playlistSubject.asObservable();
+  stopSignal = this.stopSignalSource.asObservable();
+
+  sendStopSignal() {
+    this.stopSignalSource.next();
+  }
 
   sendCurrentTrack(currentTrack: currentTrackInterface) {
     this.currentTrack = currentTrack;
     this.currentTrackSubject.next(currentTrack);
   }
 
-  sendPlaylist(playlist: currentTrackInterface[]) {
+  sendPlaylist(
+    playlist: currentTrackInterface[],
+    cancion: currentTrackInterface
+  ) {
     this.playlist = playlist;
-    this.currentTrack = playlist[0];
-    this.currentTrackSubject.next(this.currentTrack);
+    this.playlistSubject.next(playlist);
+    this.currentTrackSubject.next(cancion);
   }
 
   getNextTrack() {
@@ -51,7 +59,6 @@ export class PlayerService {
       this.currentTrack = nextTrack;
       this.currentTrackSubject.next(nextTrack);
     }
-    console.log(this.currentTrack);
   }
 
   getPreviousTrack() {
@@ -64,6 +71,23 @@ export class PlayerService {
       this.currentTrack = previousTrack;
       this.currentTrackSubject.next(previousTrack);
     }
-    console.log(this.currentTrack);
+  }
+
+  clearData() {
+    this.currentTrack = {
+      id: 0,
+      titulo: 'Unknown Track',
+      artista: 'Unknown Artist',
+      album: 'Unknown Album',
+      date: 'Unknown Date',
+      genero: 'Unknown Genre',
+      duracion: 0,
+      imagen: '',
+      audio: '',
+      fecha_creacion: '',
+      fecha_actualizacion: '',
+      id_usuario: {},
+    };
+    this.playlist = [];
   }
 }

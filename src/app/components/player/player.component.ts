@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { currentTrackInterface } from 'src/app/models/currentTrack.interface';
 import { PlayerService } from 'src/app/services/player.service';
 import { environment } from 'src/environments/environment';
@@ -8,12 +8,13 @@ import { environment } from 'src/environments/environment';
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss'],
 })
-export class PlayerComponent {
+export class PlayerComponent implements OnInit, OnDestroy {
   constructor(private playerService: PlayerService) {}
 
   song = new Audio();
 
   isPaused = true;
+  previousVolume = 0;
   volume = 0.7;
   duration = 0;
   durationFormated = '00:00';
@@ -49,9 +50,16 @@ export class PlayerComponent {
       this.duration = this.song.duration;
       this.durationFormated = this.formatTime(this.duration);
     });
+    this.playerService.stopSignal.subscribe(() => {
+      this.stopSong();
+    });
     this.song.addEventListener('ended', () => {
       this.playNextTrack();
     });
+  }
+
+  ngOnDestroy() {
+    this.stopSong();
   }
 
   onChangeCurrentTrack(track: currentTrackInterface) {
@@ -74,15 +82,21 @@ export class PlayerComponent {
 
   openSongs(song: any) {
     try {
+      this.stopSong();
+
       this.song.src = environment.apiUrl + '/api/canciones/view/' + song.audio;
       this.isPaused = false;
       this.song.load();
-      this.song.play();
+
+      this.song.addEventListener('canplaythrough', () => {
+        this.song.play();
+        this.updateInterval = setInterval(() => {
+          this.currentTime = this.song.currentTime;
+          this.currentTimeFormated = this.formatTime(this.currentTime);
+        }, 1000);
+      });
+
       this.currentTrack = song;
-      this.updateInterval = setInterval(() => {
-        this.currentTime = this.song.currentTime;
-        this.currentTimeFormated = this.formatTime(this.currentTime);
-      }, 1000);
     } catch (e) {
       console.log(e);
       alert('Error al abrir el archivo');
@@ -132,6 +146,7 @@ export class PlayerComponent {
 
   volumen(volume: any) {
     try {
+      this.previousVolume = this.volume;
       this.volume = volume.target.value;
       this.song.volume = this.volume;
     } catch (e) {}
@@ -139,7 +154,12 @@ export class PlayerComponent {
 
   muted() {
     try {
-      this.volume = 0;
+      if (this.volume === 0) {
+        this.volume = this.previousVolume;
+      } else {
+        this.previousVolume = this.volume;
+        this.volume = 0;
+      }
       this.song.volume = this.volume;
     } catch (e) {
       console.log(e);
@@ -171,5 +191,12 @@ export class PlayerComponent {
     const minutesFormatted = minutes < 10 ? `0${minutes}` : `${minutes}`;
     const secondsFormatted = seconds < 10 ? `0${seconds}` : `${seconds}`;
     return `${minutesFormatted}:${secondsFormatted}`;
+  }
+
+  seekToTime(event: any) {
+    const time = parseFloat(event.target.value);
+    this.song.currentTime = time;
+    this.currentTime = time;
+    this.currentTimeFormated = this.formatTime(time);
   }
 }

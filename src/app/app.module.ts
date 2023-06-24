@@ -18,6 +18,7 @@ import { PerfilComponent } from './components/perfil/perfil.component';
 import { PlaylistComponent } from './components/playlist/playlist.component';
 import { PlayerComponent } from './components/player/player.component';
 import { SubirCancionComponent } from './components/subir-cancion/subir-cancion.component';
+import { GenerosPlaylistComponent } from './components/generos-playlist/generos-playlist.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { SubirCancionComponent } from './components/subir-cancion/subir-cancion.
     PlaylistComponent,
     PlayerComponent,
     SubirCancionComponent,
+    GenerosPlaylistComponent,
   ],
   imports: [
     BrowserModule,

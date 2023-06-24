@@ -57,8 +57,11 @@ export class MainComponent implements OnInit {
     this.playerService.sendCurrentTrack(track);
   }
 
-  sendPlaylistToPlayer() {
-    this.playerService.sendPlaylist(this.songs);
+  sendPlaylistToPlayer(
+    playlist: currentTrackInterface[],
+    cancion: currentTrackInterface
+  ) {
+    this.playerService.sendPlaylist(playlist, cancion);
   }
 
   onDecodeToken() {
@@ -81,6 +84,11 @@ export class MainComponent implements OnInit {
 
   onLogout() {
     this.auth.onLogOut();
+    this.toastr.success(
+      'Ha cerrado sesión con éxito.',
+      '¡Éxito!',
+      this.toastConfig
+    );
   }
 
   getCanciones() {

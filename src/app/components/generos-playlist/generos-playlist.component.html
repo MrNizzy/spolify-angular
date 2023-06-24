@@ -1,0 +1,53 @@
+<div
+  class="d-flex p-3 gap-2 flex-wrap justify-content-center align-items-center"
+>
+  <button
+    type="button"
+    class="btn d-grid text-center bg-body-secondary p-1 border rounded-1 pointer shadow"
+  >
+    <div class="position-relative">
+      <div
+        class="position-absolute top-50 start-50 translate-middle text-warning-emphasis shadow pointer"
+      >
+        <i class="bi bi-play-circle-fill fs-1"></i>
+      </div>
+      <img
+        src="../../../assets/spolify.svg"
+        alt="Thumbnail"
+        class="rounded cover"
+        width="180"
+        height="180"
+      />
+    </div>
+    <span
+      class="text-white text-uppercase text-truncate"
+      style="max-width: 180px"
+      >Todas las canciones</span
+    >
+  </button>
+  <button
+    type="button"
+    class="btn d-grid text-center bg-body-secondary p-1 border rounded-1 pointer shadow"
+    *ngFor="let genero of generos"
+  >
+    <div class="position-relative">
+      <div
+        class="position-absolute top-50 start-50 translate-middle text-success-emphasis shadow pointer"
+      >
+        <i class="bi bi-play-circle-fill fs-1"></i>
+      </div>
+      <img
+        src="../../../assets/spolify.svg"
+        alt="Thumbnail"
+        class="rounded cover"
+        width="180"
+        height="180"
+      />
+    </div>
+    <span
+      class="text-white text-uppercase text-truncate"
+      style="max-width: 180px"
+      >{{ genero }}</span
+    >
+  </button>
+</div>
