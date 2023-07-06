@@ -1,28 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { Component } from '@angular/core';
 import { IndividualConfig, ToastrService } from 'ngx-toastr';
 import { currentTrackInterface } from 'src/app/models/currentTrack.interface';
-import { AuthService } from 'src/app/services/auth.service';
 import { CancionesService } from 'src/app/services/canciones.service';
 import { PlayerService } from 'src/app/services/player.service';
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
+  selector: 'app-playlist-genero',
+  templateUrl: './playlist-genero.component.html',
+  styleUrls: ['./playlist-genero.component.scss'],
 })
-export class MainComponent implements OnInit {
+export class PlaylistGeneroComponent {
   constructor(
-    private auth: AuthService,
     private canciones: CancionesService,
     private playerService: PlayerService,
-    private toastr: ToastrService,
-    private jwtHelper: JwtHelperService
+    private toastr: ToastrService
   ) {}
 
   usuario: any;
   songs: any = [];
-  playlist: currentTrackInterface[] = [];
+  currentPlaylist: currentTrackInterface[] = [];
 
   toastConfig: Partial<IndividualConfig> = {
     progressAnimation: 'decreasing',
@@ -47,18 +43,12 @@ export class MainComponent implements OnInit {
   searchText = '';
 
   ngOnInit() {
-    this.usuario = this.onDecodeToken();
     this.playerService.currentTrackObservable.subscribe((track) => {
       this.currentTrack = track;
     });
-  }
-
-  onDecodeToken() {
-    const token = localStorage.getItem('access_token');
-    if (token) {
-      const decodedToken = this.jwtHelper.decodeToken(token);
-      return decodedToken;
-    }
+    this.playerService.playlistObservable.subscribe((playlist) => {
+      this.currentPlaylist = playlist;
+    });
   }
 
   checkSession() {
@@ -69,15 +59,6 @@ export class MainComponent implements OnInit {
       return false;
     }
     return;
-  }
-
-  onLogout() {
-    this.auth.onLogOut();
-    this.toastr.success(
-      'Ha cerrado sesión con éxito.',
-      '¡Éxito!',
-      this.toastConfig
-    );
   }
 
   getCancionesByGenero(genero: string) {

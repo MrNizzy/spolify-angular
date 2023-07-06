@@ -1,18 +1,26 @@
-<div class="mb-3">
-  <label for="fileMusic" class="form-label">Selecciona un audio</label>
-  <input
-    type="file"
-    class="form-control"
-    name="fileMusic"
-    id="fileMusic"
-    placeholder="Archivo"
-    aria-describedby="Cancion"
-    accept=".mp3"
-    (change)="getFile($event)"
-  />
-  <div id="Cancion" class="form-text">Help text</div>
-</div>
+<main class="container py-3">
+  <div class="mb-3">
+    <label for="fileMusic" class="form-label fs-2">Selecciona un audio</label>
+    <input
+      type="file"
+      class="form-control p-5"
+      name="fileMusic"
+      id="fileMusic"
+      placeholder="Archivo"
+      aria-describedby="Cancion"
+      accept=".mp3"
+      (change)="getFile($event)"
+    />
+  </div>
 
-<button type="button" class="btn btn-outline-primary" (click)="sendFile()">
-  Enviar
-</button>
+  <div class="d-grid">
+    <button
+      type="button"
+      class="btn btn-outline-success d-flex gap-2 justify-content-center p-2"
+      (click)="sendFile()"
+    >
+      <i class="bi bi-cloud-arrow-up-fill"></i>
+      Enviar canción
+    </button>
+  </div>
+</main>

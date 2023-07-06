@@ -19,6 +19,7 @@ import { PlaylistComponent } from './components/playlist/playlist.component';
 import { PlayerComponent } from './components/player/player.component';
 import { SubirCancionComponent } from './components/subir-cancion/subir-cancion.component';
 import { GenerosPlaylistComponent } from './components/generos-playlist/generos-playlist.component';
+import { PlaylistGeneroComponent } from './components/playlist-genero/playlist-genero.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { GenerosPlaylistComponent } from './components/generos-playlist/generos-
     PlayerComponent,
     SubirCancionComponent,
     GenerosPlaylistComponent,
+    PlaylistGeneroComponent,
   ],
   imports: [
     BrowserModule,

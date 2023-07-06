@@ -13,7 +13,7 @@ export class RegistrarseComponent {
   registerForm = this.fb.group({
     username: ['', [Validators.required]],
     nombre: ['', [Validators.required]],
-    apellido: ['', [Validators.required]],
+    apellido: [''],
     fecha_nacimiento: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
@@ -54,7 +54,7 @@ export class RegistrarseComponent {
 
     if (!this.areAllFieldsFilled(formValue)) {
       this.toastr.error(
-        'Por favor llene todos los campos requeridos.',
+        'Por favor llene todos los campos requeridos correctamente.',
         '¡Error!',
         this.toastConfig
       );

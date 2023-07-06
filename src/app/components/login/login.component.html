@@ -22,8 +22,11 @@
         placeholder="name@example.com"
         formControlName="email"
         [ngClass]="{
-          'is-invalid': loginEmail.touched && loginEmail.value == ''
-        }"
+          'is-invalid':
+              loginEmail.touched &&
+              (loginEmail.value == '' || loginEmail.errors?.['email']),
+          'is-valid': loginEmail.value != '' && !loginEmail.errors?.['email']
+      }"
       />
       <label for="floatingInput">Email</label>
       <div class="invalid-feedback">¡El campo es requerido!</div>

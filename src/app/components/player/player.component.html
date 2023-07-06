@@ -35,17 +35,26 @@
         }}</a>
       </small>
     </div>
+    <a
+      class="btn p-1"
+      [href]="onDownload()"
+      target="_blank"
+      aria-label="Descargar canción"
+      download
+    >
+      <i class="bi bi-download fs-4"></i>
+    </a>
   </div>
 
   <!--? ACCIONES -->
   <div class="actions">
     <div class="d-flex justify-content-center align-items-center">
-      <button class="btn p-1" (click)="stopSong()" aria-label="Stop">
+      <!-- <button class="btn p-1" (click)="stopSong()" aria-label="Stop">
         <i class="bi bi-stop-fill"></i>
-      </button>
-      <button class="btn p-1" aria-label="Shuffle">
+      </button> -->
+      <!-- <button class="btn p-1" aria-label="Shuffle">
         <i class="bi bi-shuffle"></i>
-      </button>
+      </button> -->
       <button
         class="btn p-1"
         aria-label="Previous"
@@ -72,10 +81,10 @@
       <button class="btn p-1" aria-label="Next" (click)="playNextTrack()">
         <i class="bi bi-skip-end-fill"></i>
       </button>
-      <button class="btn p-1" aria-label="Repeat">
+      <!-- <button class="btn p-1" aria-label="Repeat">
         <i class="bi bi-repeat"></i>
-      </button>
-      <a
+      </button> -->
+      <!-- <a
         class="btn p-1"
         [href]="onDownload()"
         target="_blank"
@@ -83,7 +92,7 @@
         download
       >
         <i class="bi bi-download"></i>
-      </a>
+      </a> -->
     </div>
     <div class="d-flex justify-content-center align-items-center gap-1">
       <small id="current">{{ currentTimeFormated }}</small>
@@ -120,6 +129,14 @@
         style="min-width: 50px"
         aria-label="Volumen"
       />
+      <button
+        type="button"
+        class="btn d-flex gap-2"
+        aria-label="Playlist"
+        routerLink="/current"
+      >
+        <i class="bi bi-music-note-list"></i>
+      </button>
     </div>
   </div>
 </div>

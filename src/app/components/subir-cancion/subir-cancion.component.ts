@@ -44,7 +44,7 @@ export class SubirCancionComponent {
       },
       (error) => {
         this.toastr.error(
-          'Ha ocurrido un error inesperado al cargar la canción.',
+          'Ha ocurrido un error inesperado al cargar la canción, revisa que el audio se seleccionó correctamente.',
           '¡Error!',
           this.toastConfig
         );

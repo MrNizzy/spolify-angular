@@ -148,6 +148,18 @@
           <span> Tu biblioteca </span>
         </a>
       </li>
+      <li class="nav-item" *ngIf="!checkSession()">
+        <a
+          class="nav-link d-flex align-items-center gap-1"
+          routerLink="/upload"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLinkActive="active"
+          aria-label="Subir música"
+        >
+          <i class="bi bi-cloud-arrow-up fs-5"></i>
+          <span> Subir música </span>
+        </a>
+      </li>
       <li><hr /></li>
       <li class="nav-item" *ngIf="!checkSession()">
         <button

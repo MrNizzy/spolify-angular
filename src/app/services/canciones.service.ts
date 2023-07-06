@@ -21,6 +21,12 @@ export class CancionesService {
     return this.http.get(environment.apiUrl + '/api/canciones/generos/all');
   }
 
+  getCancionesByGenero(genero: string) {
+    return this.http.post(environment.apiUrl + '/api/canciones/generos', {
+      genero: genero,
+    });
+  }
+
   sendFile(body: FormData, id: number): Observable<any> {
     return this.http.post(
       environment.apiUrl + '/api/canciones/upload/' + id,

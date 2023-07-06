@@ -7,6 +7,7 @@ import { RegistrarseComponent } from './components/registrarse/registrarse.compo
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { SubirCancionComponent } from './components/subir-cancion/subir-cancion.component';
 import { GenerosPlaylistComponent } from './components/generos-playlist/generos-playlist.component';
+import { PlaylistGeneroComponent } from './components/playlist-genero/playlist-genero.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,11 @@ const routes: Routes = [
       {
         path: '',
         component: GenerosPlaylistComponent,
+        pathMatch: 'full',
+      },
+      {
+        path: 'current',
+        component: PlaylistGeneroComponent,
         pathMatch: 'full',
       },
       { path: 'upload', component: SubirCancionComponent, pathMatch: 'full' },

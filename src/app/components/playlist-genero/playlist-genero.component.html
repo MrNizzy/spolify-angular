@@ -1,0 +1,47 @@
+<div class="d-grid px-3 pt-3">
+  <h2>{{ currentTrack.genero }}</h2>
+</div>
+
+<ol class="list-group list-group-numbered" [hidden]="!currentPlaylist">
+  <li
+    class="list-group-item d-flex justify-content-between align-items-start border-bottom pointer"
+    *ngFor="let songItem of currentPlaylist"
+    [class.active]="
+      songItem.titulo == currentTrack.titulo &&
+      songItem.artista == currentTrack.artista
+    "
+    (click)="onChangeCurrentTrack(songItem)"
+  >
+    <div class="position-relative">
+      <!-- <i
+            class="bi bi-heart-fill fs-5 position-absolute top-50 start-50 translate-middle text-warning shadow"
+            *ngIf="songItem.favorite"
+          ></i>
+          <i
+            class="bi bi-heart fs-5 text-warning position-absolute top-50 start-50 translate-middle shadow"
+            *ngIf="!songItem.favorite"
+          ></i> -->
+      <img
+        src="../../../assets/spolify.svg"
+        alt="Thumbnail"
+        class="rounded cover mx-1"
+        width="48"
+        height="48"
+      />
+    </div>
+    <div class="ms-2 me-auto">
+      <div class="fw-bold text-truncate">{{ songItem.titulo }}</div>
+      {{ songItem.artista }}
+    </div>
+    <span class="badge bg-transparent rounded-pill">
+      <!-- <i
+            class="bi bi-heart fs-5 text-warning"
+            *ngIf="!songItem.favorite"
+          ></i>
+          <i
+            class="bi bi-heart-fill fs-5 text-warning"
+            *ngIf="songItem.favorite"
+          ></i> -->
+    </span>
+  </li>
+</ol>

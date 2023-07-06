@@ -4,6 +4,8 @@
   <button
     type="button"
     class="btn d-grid text-center bg-body-secondary p-1 border rounded-1 pointer shadow"
+    (click)="getCanciones()"
+    routerLink="/current"
   >
     <div class="position-relative">
       <div
@@ -29,6 +31,8 @@
     type="button"
     class="btn d-grid text-center bg-body-secondary p-1 border rounded-1 pointer shadow"
     *ngFor="let genero of generos"
+    (click)="getCancionesByGenero(genero)"
+    routerLink="/current"
   >
     <div class="position-relative">
       <div
