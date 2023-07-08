@@ -100,18 +100,32 @@
             />
             <label for="editEmail">Email</label>
           </div>
-          <div class="form-floating mb-3">
-            <input
-              type="password"
-              class="form-control"
-              id="editPassword"
-              placeholder="Password"
-              formControlName="password"
-              [value]=""
-            />
-            <label for="editPassword">Password</label>
+
+          <div class="input-group mb-3">
+            <div class="form-floating">
+              <input
+                [attr.type]="securePassword ? 'text' : 'password'"
+                class="form-control"
+                id="editPassword"
+                placeholder="Password"
+                formControlName="password"
+                [value]=""
+              />
+              <label for="editPassword">Password</label>
+            </div>
+            <button
+              class="btn btn-outline-info"
+              type="button"
+              id="passwordSecure"
+              (click)="getSecurePassword()"
+              title="Generar contraseña segura con la tecnología de Passtack"
+              aria-label="Generar contraseña segura con la tecnología de Passtack"
+            >
+              <i class="bi bi-arrow-repeat"></i>
+            </button>
           </div>
         </div>
+
         <div class="modal-footer">
           <button
             type="button"

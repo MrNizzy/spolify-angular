@@ -12,6 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class BannerPerfilComponent {
   @Input() usuario: any;
   @Input() canciones: any;
+  securePassword: any;
 
   constructor(
     private toastr: ToastrService,
@@ -51,6 +52,29 @@ export class BannerPerfilComponent {
     let password = '';
     this.usuario.password = password;
     this.formUpdate.patchValue(this.usuario);
+  }
+
+  getSecurePassword() {
+    this.auth.getSecurePassword().subscribe(
+      (data) => {
+        this.securePassword = data;
+        this.usuario.password = this.securePassword.password;
+        this.formUpdate.patchValue(this.usuario);
+        this.toastr.info(
+          `Contraseña generada, recuerda guardarla para tu próximo inicio de sesión`,
+          '¡Nueva contraseña!',
+          this.toastConfig
+        );
+      },
+      (error) => {
+        this.toastr.error(
+          'Ha ocurrido un error inesperado.',
+          '¡Error!',
+          this.toastConfig
+        );
+        console.log(error);
+      }
+    );
   }
 
   onUpdatePerfil(form: perfilInterface) {

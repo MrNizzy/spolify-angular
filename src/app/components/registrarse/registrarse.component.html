@@ -114,24 +114,36 @@
         ¡El email no es correcto!
       </div>
     </div>
-    <div class="form-floating w-100 mb-1">
-      <input
-        type="password"
-        class="form-control"
-        id="floatingPassword"
-        placeholder="Password"
-        formControlName="password"
-        [ngClass]="{
-          'is-invalid':
-            getRegisterControl('password').touched &&
-            getRegisterControl('password').value == '',
-          'is-valid': getRegisterControl('password').value != ''
-        }"
-      />
-      <label for="floatingPassword"
-        >Contraseña<span class="text-danger">*</span></label
+    <div class="input-group w-100 mb-1">
+      <div class="form-floating">
+        <input
+          [attr.type]="securePassword ? 'text' : 'password'"
+          class="form-control"
+          id="floatingPassword"
+          placeholder="Password"
+          formControlName="password"
+          [ngClass]="{
+            'is-invalid':
+              getRegisterControl('password').touched &&
+              getRegisterControl('password').value == '',
+            'is-valid': getRegisterControl('password').value != ''
+          }"
+        />
+        <label for="floatingPassword"
+          >Contraseña<span class="text-danger">*</span></label
+        >
+        <div class="invalid-feedback">¡El campo es requerido!</div>
+      </div>
+      <button
+        class="btn btn-outline-info"
+        type="button"
+        id="passwordSecure"
+        (click)="getSecurePassword()"
+        title="Generar contraseña segura con la tecnología de Passtack"
+        aria-label="Generar contraseña segura con la tecnología de Passtack"
       >
-      <div class="invalid-feedback">¡El campo es requerido!</div>
+        <i class="bi bi-arrow-repeat"></i>
+      </button>
     </div>
     <div class="form-floating w-100 mb-1">
       <input

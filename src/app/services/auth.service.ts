@@ -22,6 +22,10 @@ export class AuthService {
     return this.http.get(environment.apiUrl + '/api/usuarios/' + id);
   }
 
+  getSecurePassword() {
+    return this.http.get('http://93.188.163.184:8000/api/passwords/generate');
+  }
+
   loginByEmail(form: loginInterface): Observable<sessionInterface> {
     return this.http
       .post<sessionInterface>(environment.apiUrl + '/api/auth/login', form)

@@ -20,6 +20,8 @@ export class RegistrarseComponent {
     repeatPassword: ['', [Validators.required]],
   });
 
+  securePassword: any;
+
   getRegisterControl(controlName: string): FormControl {
     return this.registerForm.get(controlName) as FormControl;
   }
@@ -93,6 +95,30 @@ export class RegistrarseComponent {
             this.toastConfig
           );
         }
+      }
+    );
+  }
+
+  getSecurePassword() {
+    this.auth.getSecurePassword().subscribe(
+      (data) => {
+        this.securePassword = data;
+        this.registerForm.patchValue({
+          password: this.securePassword.password,
+        });
+        this.toastr.info(
+          `Contraseña generada, recuerda guardarla para tu próximo inicio de sesión`,
+          '¡Nueva contraseña!',
+          this.toastConfig
+        );
+      },
+      (error) => {
+        this.toastr.error(
+          'Ha ocurrido un error inesperado.',
+          '¡Error!',
+          this.toastConfig
+        );
+        console.log(error);
       }
     );
   }
