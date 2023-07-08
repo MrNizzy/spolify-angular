@@ -22,20 +22,6 @@
       </button>
     </div>
 
-    <div class="search">
-      <div class="position-relative w-100">
-        <i class="bi bi-search position-absolute top-0 end-0 mt-1 me-2"></i>
-        <input
-          type="text"
-          class="form-control shadow-sm"
-          id="search"
-          placeholder="Buscar canción"
-          aria-label="Buscar canción"
-          [(ngModel)]="searchText"
-        />
-      </div>
-    </div>
-
     <div class="session">
       <button
         *ngIf="checkSession()"

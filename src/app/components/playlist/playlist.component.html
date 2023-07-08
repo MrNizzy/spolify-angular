@@ -1,16 +1,18 @@
 <ol class="list-group list-group-numbered" [hidden]="!playlist">
   <li
-    class="list-group-item d-flex justify-content-between align-items-start border-bottom pointer"
+    class="list-group-item d-flex justify-content-between align-items-start border-bottom"
     *ngFor="let songItem of playlist"
     [class.active]="
       songItem.titulo == currentTrack.titulo &&
       songItem.artista == currentTrack.artista
     "
-    (click)="
-      sendPlaylistToPlayer(playlist, songItem); onChangeCurrentTrack(songItem)
-    "
   >
-    <div class="position-relative">
+    <div
+      class="position-relative pointer"
+      (click)="
+        sendPlaylistToPlayer(playlist, songItem); onChangeCurrentTrack(songItem)
+      "
+    >
       <!-- <i
           class="bi bi-heart-fill fs-5 position-absolute top-50 start-50 translate-middle text-warning shadow"
           *ngIf="songItem.favorite"
@@ -27,11 +29,38 @@
         height="48"
       />
     </div>
-    <div class="ms-2 me-auto">
-      <div class="fw-bold text-truncate">{{ songItem.titulo }}</div>
-      {{ songItem.artista }}
+    <div
+      class="ms-2 me-auto pointer"
+      (click)="
+        sendPlaylistToPlayer(playlist, songItem); onChangeCurrentTrack(songItem)
+      "
+    >
+      <div
+        class="fw-bold text-truncate"
+        style="max-width: 250px"
+        [attr.title]="songItem.titulo"
+      >
+        {{ songItem.titulo }}
+      </div>
+      <span
+        class="text-truncate"
+        style="max-width: 250px"
+        [attr.title]="songItem.artista"
+      >
+        {{ songItem.artista }}
+      </span>
     </div>
     <span class="badge bg-transparent rounded-pill">
+      <button
+        type="button"
+        class="btn pointer"
+        aria-label="Menú canción"
+        data-bs-toggle="modal"
+        data-bs-target="#editCancion"
+        (click)="selectCancionToAction(songItem)"
+      >
+        <i class="bi bi-three-dots-vertical"></i>
+      </button>
       <!-- <i
           class="bi bi-heart fs-5 text-warning"
           *ngIf="!songItem.favorite"
@@ -43,3 +72,121 @@
     </span>
   </li>
 </ol>
+
+<div
+  class="modal fade"
+  id="editCancion"
+  tabindex="-1"
+  aria-labelledby="editCancion"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form
+        [formGroup]="formUpdate"
+        (ngSubmit)="onUpdateCancion(formUpdate.value)"
+      >
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="editCancion">
+            <i class="bi bi-pencil-fill mx-1"></i>
+            Editar canción {{ cancionSelectedToAction.titulo }}
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Cerrar"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-floating mb-2">
+            <input
+              type="text"
+              class="form-control"
+              id="editTitulo"
+              placeholder="Titulo"
+              formControlName="titulo"
+              [value]="cancionSelectedToAction.titulo"
+            />
+            <label for="editTitulo">Titulo</label>
+          </div>
+          <div class="form-floating mb-2">
+            <input
+              type="text"
+              class="form-control"
+              id="editArtista"
+              placeholder="Artista"
+              formControlName="artista"
+              [value]="cancionSelectedToAction.artista"
+            />
+            <label for="editArtista">Artista</label>
+          </div>
+          <div class="form-floating mb-2">
+            <input
+              type="text"
+              class="form-control"
+              id="editAlbum"
+              placeholder="Album"
+              formControlName="Album"
+              [value]="cancionSelectedToAction.album"
+            />
+            <label for="editAlbum">Álbum</label>
+          </div>
+          <div class="form-floating mb-2">
+            <input
+              type="text"
+              class="form-control"
+              id="editGenero"
+              placeholder="Género"
+              formControlName="genero"
+              [value]="cancionSelectedToAction.genero"
+            />
+            <label for="editGenero">Género</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="editFecha"
+              placeholder="Fecha de lanzamiento"
+              formControlName="date"
+              [value]="cancionSelectedToAction.date"
+            />
+            <label for="editFecha">Fecha de lanzamiento</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-info d-flex gap-1"
+            data-bs-dismiss="modal"
+            aria-label="Cerrar"
+          >
+            <i class="bi bi-x-circle-fill"></i>
+            Cerrar
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger text-white d-flex gap-1"
+            data-bs-dismiss="modal"
+            aria-label="Eliminar canción"
+            (click)="onDeleteCancion()"
+          >
+            <i class="bi bi-trash-fill"></i>
+            Eliminar canción
+          </button>
+          <button
+            type="submit"
+            class="btn btn-success text-white d-flex gap-1"
+            data-bs-dismiss="modal"
+            aria-label="Guardar cambios"
+            [disabled]="formUpdate.invalid"
+          >
+            <i class="bi bi-check-circle-fill"></i>
+            Guardar cambios
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

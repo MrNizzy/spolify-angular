@@ -21,14 +21,119 @@
         type="button"
         class="btn btn-outline-primary"
         aria-label="Compartir perfil"
+        disabled
       >
         <i class="bi bi-share-fill mx-1"></i>
         Compartir perfil
       </button>
-      <button type="button" class="btn btn-outline-primary">
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#editPerfil"
+        (click)="assignData()"
+      >
         <i class="bi bi-pencil-fill mx-1"></i>
         Editar perfil
       </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal - edit perfil -->
+<div
+  class="modal fade"
+  id="editPerfil"
+  tabindex="-1"
+  aria-labelledby="editPerfil"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form
+        [formGroup]="formUpdate"
+        (ngSubmit)="onUpdatePerfil(formUpdate.value)"
+      >
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="editPerfil">
+            <i class="bi bi-pencil-fill mx-1"></i>
+            Editar perfil de @{{ usuario.username }}
+          </h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Cerrar"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="form-floating mb-2">
+            <input
+              type="text"
+              class="form-control"
+              id="editNombre"
+              placeholder="Nombre"
+              formControlName="nombre"
+              [value]="usuario.nombre"
+            />
+            <label for="editNombre">Nombre</label>
+          </div>
+          <div class="form-floating mb-2">
+            <input
+              type="text"
+              class="form-control"
+              id="editApellido"
+              placeholder="Apellido"
+              formControlName="apellido"
+              [value]="usuario.apellido"
+            />
+            <label for="editApellido">Apellido</label>
+          </div>
+          <div class="form-floating mb-2">
+            <input
+              type="email"
+              class="form-control"
+              id="editEmail"
+              placeholder="Email"
+              formControlName="email"
+              [value]="usuario.email"
+            />
+            <label for="editEmail">Email</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control"
+              id="editPassword"
+              placeholder="Password"
+              formControlName="password"
+              [value]=""
+            />
+            <label for="editPassword">Password</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-danger d-flex gap-2"
+            data-bs-dismiss="modal"
+            aria-label="Cerrar"
+          >
+            <i class="bi bi-x-circle-fill"></i>
+            Cerrar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-success text-white d-flex gap-2"
+            data-bs-dismiss="modal"
+            aria-label="Guardar cambios"
+            [disabled]="formUpdate.invalid"
+          >
+            <i class="bi bi-check-circle-fill"></i>
+            Guardar cambios
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

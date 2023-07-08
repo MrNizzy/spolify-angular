@@ -1,5 +1,18 @@
+<div class="search py-3 container">
+  <div class="position-relative w-100">
+    <i class="bi bi-search position-absolute top-0 end-0 mt-1 me-2"></i>
+    <input
+      type="text"
+      class="form-control shadow-sm"
+      id="search"
+      placeholder="Buscar género"
+      aria-label="Buscar género"
+      [(ngModel)]="searchText"
+    />
+  </div>
+</div>
 <div
-  class="d-flex p-3 gap-2 flex-wrap justify-content-center align-items-center"
+  class="d-flex px-3 pb-3 gap-2 flex-wrap justify-content-center align-items-center"
 >
   <button
     type="button"
@@ -30,7 +43,7 @@
   <button
     type="button"
     class="btn d-grid text-center bg-body-secondary p-1 border rounded-1 pointer shadow"
-    *ngFor="let genero of generos"
+    *ngFor="let genero of generos | filter : searchText"
     (click)="getCancionesByGenero(genero)"
     routerLink="/current"
   >
@@ -51,7 +64,7 @@
     <span
       class="text-white text-uppercase text-truncate"
       style="max-width: 180px"
-      >{{ genero }}</span
+      >{{ genero ? genero : "Género desconocido" }}</span
     >
   </button>
 </div>

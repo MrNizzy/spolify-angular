@@ -22,17 +22,25 @@ export class PlayerService {
   };
 
   playlist: currentTrackInterface[] = [];
+  searchText: string = '';
 
   private currentTrackSubject = new Subject<currentTrackInterface>();
   private playlistSubject = new Subject<currentTrackInterface[]>();
   private stopSignalSource = new Subject<void>();
+  private searchTextSubject = new Subject<string>();
 
   currentTrackObservable = this.currentTrackSubject.asObservable();
   playlistObservable = this.playlistSubject.asObservable();
   stopSignal = this.stopSignalSource.asObservable();
+  searchTextObservable = this.searchTextSubject.asObservable();
 
   sendStopSignal() {
     this.stopSignalSource.next();
+  }
+
+  sendSearchText(searchText: string) {
+    this.searchText = searchText;
+    this.searchTextSubject.next(this.searchText);
   }
 
   sendCurrentTrack(currentTrack: currentTrackInterface) {

@@ -48,6 +48,19 @@ export class AuthService {
     );
   }
 
+  updatePerfil(id: any, form: any) {
+    if (id) {
+      return this.http
+        .patch(environment.apiUrl + '/api/usuarios/update/' + id, form)
+        .pipe(
+          catchError(() => {
+            return throwError(() => new HttpErrorResponse({ status: 409 }));
+          })
+        );
+    }
+    return throwError(() => 'Ha ocurrido un error al actualizar el perfil');
+  }
+
   onLogOut() {
     localStorage.clear();
   }

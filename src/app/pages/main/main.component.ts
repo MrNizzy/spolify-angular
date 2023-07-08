@@ -51,6 +51,9 @@ export class MainComponent implements OnInit {
     this.playerService.currentTrackObservable.subscribe((track) => {
       this.currentTrack = track;
     });
+    this.playerService.searchTextObservable.subscribe((searchText) => {
+      this.searchText = searchText;
+    });
   }
 
   onDecodeToken() {

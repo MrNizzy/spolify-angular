@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -25,6 +25,29 @@ export class CancionesService {
     return this.http.post(environment.apiUrl + '/api/canciones/generos', {
       genero: genero,
     });
+  }
+
+  updateCancion(id: any, form: any) {
+    if (id) {
+      return this.http
+        .patch(environment.apiUrl + '/api/canciones/update/' + id, form)
+        .pipe(
+          catchError(() => {
+            return throwError(() => new HttpErrorResponse({ status: 409 }));
+          })
+        );
+    }
+    return throwError(() => 'Ha ocurrido un error al actualizar la canción');
+  }
+
+  deleteCancion(id: any) {
+    return this.http
+      .delete(environment.apiUrl + '/api/canciones/delete/' + id)
+      .pipe(
+        catchError(() => {
+          return throwError(() => new HttpErrorResponse({ status: 409 }));
+        })
+      );
   }
 
   sendFile(body: FormData, id: number): Observable<any> {

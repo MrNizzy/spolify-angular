@@ -18,6 +18,7 @@ export class GenerosPlaylistComponent implements OnInit {
 
   generos: any;
   songs: any = [];
+  searchText = '';
   playlist: currentTrackInterface[] = [];
   currentTrack: currentTrackInterface = {
     id: 0,
@@ -46,6 +47,9 @@ export class GenerosPlaylistComponent implements OnInit {
     });
     this.playerService.playlistObservable.subscribe((playlist) => {
       this.songs = playlist;
+    });
+    this.playerService.searchTextObservable.subscribe((searchText) => {
+      this.searchText = searchText;
     });
   }
 

@@ -1,5 +1,7 @@
 <div class="d-grid px-3 pt-3">
-  <h2>{{ currentTrack.genero }}</h2>
+  <h2>
+    {{ currentTrack.genero ? currentTrack.genero : "Género desconocido" }}
+  </h2>
 </div>
 
 <ol class="list-group list-group-numbered" [hidden]="!currentPlaylist">
